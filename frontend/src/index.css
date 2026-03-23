@@ -1,0 +1,89 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0e0d0d;
+  --bg2:      #161514;
+  --bg3:      #1f1d1c;
+  --border:   #2e2b29;
+  --amber:    #f59e0b;
+  --amber2:   #fbbf24;
+  --amber-dim:#7c5107;
+  --red:      #ef4444;
+  --text:     #f5f0ea;
+  --muted:    #8a8278;
+  --font-display: 'Cinzel', serif;
+  --font-body:    'DM Sans', sans-serif;
+  --radius:   10px;
+  --transition: 0.2s ease;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--amber); text-decoration: none; }
+a:hover { color: var(--amber2); }
+
+input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+input:focus { border-color: var(--amber); }
+input::placeholder { color: var(--muted); }
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border: none;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+
+.btn-primary {
+  background: var(--amber);
+  color: #0e0d0d;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+}
+.btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+}
+.btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+.btn-danger:hover { color: var(--red); }
+
+.error-msg {
+  color: var(--red);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}

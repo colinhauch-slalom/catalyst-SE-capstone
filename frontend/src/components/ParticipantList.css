@@ -1,0 +1,104 @@
+.plist {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.plist-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 1.2rem 1.2rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.plist-header h2 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+}
+
+.plist-count {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.plist-add {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.plist-add input {
+  border-radius: 6px;
+}
+
+.plist-add-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--amber);
+  color: #0e0d0d;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.plist-add-btn:hover:not(:disabled) { background: var(--amber2); }
+.plist-add-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.plist-items {
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+  padding: 0.5rem 0;
+}
+
+.plist-empty {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.plist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem;
+  transition: background 0.15s;
+}
+.plist-item:hover { background: var(--bg3); }
+.plist-item.inactive { opacity: 0.45; }
+
+.plist-toggle {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.plist-toggle.on  { color: var(--amber); }
+.plist-toggle.off { color: var(--muted); }
+
+.plist-name {
+  flex: 1;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plist-delete {
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.plist-item:hover .plist-delete { opacity: 1; }
