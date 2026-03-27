@@ -2,6 +2,7 @@ package com.wheelofdoom.service;
 
 import com.wheelofdoom.dto.AuthRequest;
 import com.wheelofdoom.dto.AuthResponse;
+import com.wheelofdoom.exception.UsernameAlreadyTakenException;
 import com.wheelofdoom.model.User;
 import com.wheelofdoom.repository.UserRepository;
 import com.wheelofdoom.security.JwtUtil;
@@ -23,7 +24,7 @@ public class AuthService {
 
     public void register(AuthRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new IllegalArgumentException("Username already taken");
+            throw new UsernameAlreadyTakenException(request.getUsername());
         }
         User user = new User();
         user.setUsername(request.getUsername());
