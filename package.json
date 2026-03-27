@@ -1,0 +1,10 @@
+{
+  "name": "wheel-of-doom",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,green \"mvn -f backend/pom.xml spring-boot:run\" \"npm --prefix frontend run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
