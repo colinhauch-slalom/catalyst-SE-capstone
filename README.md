@@ -86,6 +86,13 @@ cd backend
 mvn test
 ```
 
+Run only the password-encryption persistence validation:
+
+```bash
+cd backend
+mvn -Dtest=AuthPersistenceIntegrationTest test
+```
+
 Generate and view the HTML coverage report:
 
 ```bash
@@ -107,6 +114,22 @@ Backend JaCoCo report output:
 - CSV: `backend/target/site/jacoco/jacoco.csv`
 - XML: `backend/target/site/jacoco/jacoco.xml`
 
+### Password Encryption Validation
+
+The backend includes an integration test that verifies passwords are encrypted before they are stored:
+
+- `AuthPersistenceIntegrationTest` registers a user through the real `AuthService` and confirms the saved password is not plaintext.
+- The same test confirms the persisted value matches the configured `PasswordEncoder` and has the expected BCrypt-style hash prefix.
+- It also verifies the seeded `demo` account is stored encrypted, not as the raw string `demo`.
+
+If you want to inspect the stored values manually while the backend is running, open the H2 console and run:
+
+```sql
+SELECT username, password FROM users;
+```
+
+You should see hashed values beginning with something like `$2`, not readable passwords.
+
 ### Frontend
 
 ```bash
@@ -114,6 +137,26 @@ cd frontend
 npm test -- --run          # single run
 npm run coverage           # with coverage report
 ```
+
+## GitHub Actions Workflows
+
+Example GitHub Actions workflows live in `.github/workflows`:
+
+- `ci.yml`: runs backend Maven tests and frontend Vitest tests on `push` and `pull_request`.
+- `build-check.yml`: runs backend `mvn verify` and frontend `npm run build` on `pull_request` and manual dispatch.
+- `coverage.yml`: generates backend and frontend coverage reports and uploads them as workflow artifacts.
+- `dependency-audit.yml`: runs a scheduled frontend dependency audit and backend dependency snapshot, and can also be started manually.
+
+### Viewing Workflow Results
+
+After pushing the branch to GitHub:
+
+1. Open the repository on GitHub.
+2. Click the **Actions** tab.
+3. Select a workflow run to inspect job and step logs.
+4. For the coverage workflow, download the uploaded artifacts from the run summary page.
+
+Manual workflows can be started from the same **Actions** tab with **Run workflow**.
 
 ## API Overview
 
