@@ -7,7 +7,7 @@ import './ParticipantList.css'
  * @param {(id: number, active: boolean) => void} onToggle
  * @param {(id: number) => void} onDelete
  */
-export default function ParticipantList({ participants, onAdd, onToggle, onDelete }) {
+export default function ParticipantList({ participants, onAdd, onToggle, onDelete, onSave, isDirty }) {
   const [input, setInput] = useState('')
 
   function handleAdd(e) {
@@ -42,13 +42,16 @@ export default function ParticipantList({ participants, onAdd, onToggle, onDelet
         )}
         {participants.map(p => (
           <li key={p.id} className={`plist-item ${p.active ? '' : 'inactive'}`}>
-            <button
-              className={`plist-toggle ${p.active ? 'on' : 'off'}`}
-              onClick={() => onToggle(p.id, !p.active)}
-              title={p.active ? 'Deactivate' : 'Activate'}
-            >
-              {p.active ? '●' : '○'}
-            </button>
+            <label className="plist-checkbox-label" title={p.active ? 'Deactivate' : 'Activate'}>
+              <input
+                type="checkbox"
+                className="plist-checkbox-input"
+                checked={p.active}
+                onChange={() => onToggle(p.id, !p.active)}
+                aria-label={`Toggle ${p.name}`}
+              />
+              <span className="plist-checkbox-custom" />
+            </label>
             <span className="plist-name">{p.name}</span>
             <button
               className="btn-danger plist-delete"
@@ -60,6 +63,12 @@ export default function ParticipantList({ participants, onAdd, onToggle, onDelet
           </li>
         ))}
       </ul>
+
+      {isDirty && (
+        <button className="plist-save-btn" onClick={onSave}>
+          Save changes
+        </button>
+      )}
     </div>
   )
 }

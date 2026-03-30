@@ -15,6 +15,7 @@ export default function MainPage() {
   const { logout } = useAuth()
   const navigate = useNavigate()
   const [participants, setParticipants] = useState([])
+  const [savedParticipants, setSavedParticipants] = useState([])
   const [history, setHistory] = useState([])
   const [spinning, setSpinning] = useState(false)
   const [winner, setWinner] = useState(null)
@@ -23,9 +24,14 @@ export default function MainPage() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    getParticipants().then(r => setParticipants(r.data)).catch(() => {})
+    getParticipants().then(r => { setParticipants(r.data); setSavedParticipants(r.data) }).catch(() => {})
     getSpins().then(r => setHistory(r.data)).catch(() => {})
   }, [])
+
+  const isDirty = participants.some(p => {
+    const saved = savedParticipants.find(s => s.id === p.id)
+    return saved && saved.active !== p.active
+  })
 
   const active = participants.filter(p => p.active)
 
@@ -33,20 +39,30 @@ export default function MainPage() {
     try {
       const res = await addParticipant(name)
       setParticipants(prev => [...prev, res.data])
+      setSavedParticipants(prev => [...prev, res.data])
     } catch { setError('Failed to add participant.') }
   }
 
-  async function handleToggle(id, active) {
+  function handleToggle(id, active) {
+    setParticipants(prev => prev.map(p => p.id === id ? { ...p, active } : p))
+  }
+
+  async function handleSave() {
+    const changed = participants.filter(p => {
+      const saved = savedParticipants.find(s => s.id === p.id)
+      return saved && saved.active !== p.active
+    })
     try {
-      const res = await toggleParticipant(id, active)
-      setParticipants(prev => prev.map(p => p.id === id ? res.data : p))
-    } catch { setError('Failed to update participant.') }
+      await Promise.all(changed.map(p => toggleParticipant(p.id, p.active)))
+      setSavedParticipants(participants)
+    } catch { setError('Failed to save changes.') }
   }
 
   async function handleDelete(id) {
     try {
       await deleteParticipant(id)
       setParticipants(prev => prev.filter(p => p.id !== id))
+      setSavedParticipants(prev => prev.filter(p => p.id !== id))
     } catch { setError('Failed to delete participant.') }
   }
 
@@ -121,6 +137,8 @@ export default function MainPage() {
                 onAdd={handleAdd}
                 onToggle={handleToggle}
                 onDelete={handleDelete}
+                onSave={handleSave}
+                isDirty={isDirty}
               />
           }
         </aside>

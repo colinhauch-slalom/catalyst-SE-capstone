@@ -34,9 +34,9 @@ public class ParticipantController {
         return ResponseEntity.status(HttpStatus.CREATED).body(participantService.add(currentUserId(), request));
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}/active")
     public ResponseEntity<Participant> toggle(@PathVariable Long id,
-                                              @RequestBody ParticipantToggleRequest request) {
+                                             @RequestBody ParticipantToggleRequest request) {
         return ResponseEntity.ok(participantService.toggle(id, request.isActive()));
     }
 

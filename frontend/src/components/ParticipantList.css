@@ -76,17 +76,45 @@
 .plist-item:hover { background: var(--bg3); }
 .plist-item.inactive { opacity: 0.45; }
 
-.plist-toggle {
-  background: none;
-  border: none;
-  font-size: 1rem;
+.plist-checkbox-label {
+  flex-shrink: 0;
   cursor: pointer;
-  padding: 0;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+.plist-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+.plist-checkbox-custom {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--muted);
+  border-radius: 3px;
+  position: relative;
+  transition: border-color 0.15s, background 0.15s;
   flex-shrink: 0;
 }
-.plist-toggle.on  { color: var(--amber); }
-.plist-toggle.off { color: var(--muted); }
+.plist-checkbox-input:checked + .plist-checkbox-custom {
+  background: var(--amber);
+  border-color: var(--amber);
+}
+.plist-checkbox-input:checked + .plist-checkbox-custom::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  width: 4px;
+  height: 7px;
+  border: 2px solid #0e0d0d;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
 
 .plist-name {
   flex: 1;
@@ -102,3 +130,18 @@
   transition: opacity 0.15s;
 }
 .plist-item:hover .plist-delete { opacity: 1; }
+
+.plist-save-btn {
+  margin: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--amber);
+  color: #0e0d0d;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: calc(100% - 2rem);
+  transition: opacity 0.15s;
+}
+.plist-save-btn:hover { opacity: 0.85; }
